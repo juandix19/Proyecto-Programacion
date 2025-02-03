@@ -1,5 +1,6 @@
 from subprocess import call 
 from color import Color 
+from funciones import Menu_Agregar 
 
 "--------------------------MENUS---------------------------------"
 def limpiar():
@@ -21,3 +22,21 @@ def Menu_Principal():
         print((menu))
         print(Color.RESET)
         option = input(f"Eliga la opción que desea: ".rjust(80))
+
+        if option == "1.":
+            Menu_Agregar()
+            pass
+        elif option == "2.":
+            pass
+        elif option == "3.":
+            pass
+        elif option == "4.":
+            pass
+        elif option == "5.":
+            pass
+
+
+
+if __name__ == '__main__':
+    limpiar()
+    Menu_Principal()
