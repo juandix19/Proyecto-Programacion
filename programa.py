@@ -1,6 +1,6 @@
 from subprocess import call 
 from color import Color 
-from funciones import Menu_Agregar 
+from funciones import Crear_Registro
 
 "--------------------------MENUS---------------------------------"
 def limpiar():
@@ -11,20 +11,23 @@ def Menu_Principal():
         print(Color.CYAN)
         menu = \
         """
-                                                                Menu Principal 
-                                                        ----------------------------
-                                                        1. Agregar información.
-                                                        2. Modificar información. 
-                                                        3. Eliminar inoformación. 
-                                                        4. Consultar información
-                                                        5. Salir
+*********************************************************************************************************************************************************************
+                                            Programa para el Manejo de Estudiante del Curso
+*********************************************************************************************************************************************************************
+
+                                                        1. Crear Registros.
+                                                        2. Modificar Registros.  
+                                                        3. Consultar Registros.
+                                                        4. Eliminar Registro.
+
+                                                        0. <Terminar>a
         """
         print((menu))
-        print(Color.RESET)
-        option = input(f"Eliga la opción que desea: ".rjust(80))
+        print(Color.WHITE)
+        option = input(f"Digite una opción: ".rjust(80))
 
         if option == "1.":
-            Menu_Agregar()
+            Crear_Registro()
             pass
         elif option == "2.":
             pass
