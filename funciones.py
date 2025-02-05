@@ -4,12 +4,12 @@ from color import Color
 def limpiar():
     call("cls", shell = True)
 
-def Menu_Agregar():
+def Crear_Registro():
     while True:
         print(Color.CYAN)
         agregar = \
         """
-                                                        Agregar Información 
+                                                        Crear Registro
                                                     ----------------------------
                                                     1.
                                                     2.
