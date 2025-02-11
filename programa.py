@@ -2,6 +2,7 @@ from subprocess import call
 from color import Color 
 import json
 import os 
+import time
 
 
 "--------------------------MENUS---------------------------------"
@@ -30,7 +31,7 @@ def Menu_Principal(ruta_archivo):
                                                                 0. <Terminar>
                 """)
 
-    
+        
         option = input("Digite una opción: ")
 
         if option == "1":
@@ -47,7 +48,7 @@ def Menu_Principal(ruta_archivo):
         else:
             print("❌ Opción inválida, intenta de nuevo.")
             input("\nPresiona ENTER para continuar...")  
-        
+
 
 
 
@@ -59,76 +60,95 @@ def Verificar_Archivo(ruta_archivo):
 
 
 def Crear_Registro(ruta_archivo):
-    codigo = input("Código del estudiante: ").strip().upper()
+    llave = input("Código del estudiante: ").strip().upper()
     nombre = input("Nombre: ")
     materias = input("Materias que está cursando (separadas por coma): ").split(',')
     materias = [m.strip() for m in materias] 
-    activo_str = input("¿Está activo? (S/N): ").strip().lower()
-    activo = activo_str == "s"
+    activo_string = input("¿Está activo? (S/N): ").strip().lower()
+    activo = activo_string == "s"
     
     with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
         registros = json.load(archivo)
     
-    if codigo in registros:
+    if llave in registros:
         print("⚠️ El código ya existe. No se puede duplicar.")
         return
     
-    registros[codigo] = [nombre, materias, activo]
+    registros[llave] = [nombre, materias, activo]
     
     with open(ruta_archivo, 'w', encoding='utf-8') as archivo:      
         json.dump(registros, archivo, indent=4, ensure_ascii=False)
     print("✅ Registro creado con éxito")
+    limpiar()
 
 
 def Modificar_Registro(ruta_archivo):
-    codigo = input("Ingrese el código del estudiante a modificar: ").strip().upper()
-    
+    llave = input("Ingrese el código del estudiante a modificar: ").strip().upper()
     with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
         registros = json.load(archivo)
     
-    if codigo not in registros:
+    if llave not in registros:
         print("⚠️ No se encontró el código ingresado.")
-        return
+        return 
     
-    print(f"Datos actuales: {registros[codigo]}")
+    print(f"Datos actuales: {registros[llave]}")
     nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip()
     materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ")
-    activo_str = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().lower()
+    activo_string = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().lower()
     
     if nombre:
-        registros[codigo][0] = nombre
+        registros[llave][0] = nombre
     if materias:
-        registros[codigo][1] = [m.strip() for m in materias.split(',')]
-    if activo_str:
-        registros[codigo][2] = activo_str == "s"
+        registros[llave][1] = [m.strip() for m in materias.split(',')]
+    if activo_string:
+        registros[llave][2] = activo_string == "S"
     
     with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
         json.dump(registros, archivo, indent=4, ensure_ascii=False)
     print("✅ Registro modificado con éxito")
+    limpiar()
+
 
 
 def Consultar_Registro(ruta_archivo):
-    llave = input("Ingrese la llave del alumno a consultar: ")
-    with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-        registros = json.load(archivo)
+        while True:
+            llave = input("Ingrese el código del alumno a consultar: ").strip()
+            with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+                registros = json.load(archivo)
 
-    if llave in registros:
-        print("\n📌 Registro encontrado:")
-        print(json.dumps({llave: registros[llave]}, indent=4, ensure_ascii=False))
-    else:
-        print("❌ Registro no encontrado")
+            if llave in registros:
+                print("\n📌 Registro encontrado:")
+                print(f"\n Datos actuales: {registros[llave]}")
+                input("\nPresione ENTER para volver al menu principal")
+                print("🔙 Volviendo al menú principal...")
+                time.sleep(2)
+                break
+            if llave not in registros:
+                print("❌ Registro no encontrado \n Escriba el codigo correctamente:")    
+        limpiar()
+
+
+
 
 
 def Eliminar_Registro(ruta_archivo):
-    llave = input("Ingrese la llave del alumno a eliminar: ")
+    llave = input("Ingrese el código del alumno a eliminar: ")
     with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
         registros = json.load(archivo)
 
-    if llave in registros:
-        del registros[llave]
-        with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
-            json.dump(registros, archivo, indent=4, ensure_ascii=False)
-        print("✅ Registro eliminado con éxito")
+    while True:
+        if llave in registros:
+            time.sleep(2)
+            del registros[llave]
+            with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
+                json.dump(registros, archivo, indent=4, ensure_ascii=False)
+            print("✅ Registro eliminado con éxito")
+            input("\n Presione Enter para salir")
+            break 
+        if llave not in registros:
+            print("❌ Código no encontrado \n Escriba el codigo correctamente:")    
+
+    limpiar()
 
 def limpiar():
     call("cls", shell=True)
