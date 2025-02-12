@@ -1,9 +1,17 @@
 {
-    "AAAA": [
-        "AAAAA",
+    "JL25": [
+        "YULIANA ALBIRA TORRES PÉREZ",
         [
-            "BBBBB"
+            "PARCHOLOGÍA II",
+            "TÉCNICAS EN SÍNTESIS DE ANFETAMINAS"
         ],
-        false
+        true
+    ],
+    "JL26": [
+        "JAIRO SNEIDER GARZÓN BOLAÑOS",
+        [
+            "PRINCIPIOS DE VANDALISMO"
+        ],
+        true
     ]
 }
