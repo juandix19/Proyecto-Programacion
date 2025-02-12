@@ -15,5 +15,20 @@
             "ALCOHOLIMETRÍA"
         ],
         true
+    ],
+    "JL25": [
+        "JASSNA LUNA RAFFÁN BOHÓRQUEZ",
+        [
+            "BIOLOGÍA",
+            "PRIMEROS AUXILIOS",
+            "FÍSICA",
+            "MATEMÁTICAS",
+            "FUNDAMENTACIÓN MÉDICA",
+            "QUÍMICA",
+            "ORIENTACIÓN PROFESIONAL",
+            "METODOLOGÍA DE ESTUDIO",
+            "HABILIDADES COMUNICATIVAS"
+        ],
+        false
     ]
 }
