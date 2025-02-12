@@ -29,6 +29,14 @@
             "METODOLOGÍA DE ESTUDIO",
             "HABILIDADES COMUNICATIVAS"
         ],
-        false
+        true
+    ],
+    "JL26": [
+        "SANTIAGO VÉLEZ SILVA",
+        [
+            "CANECOLOGÍA II",
+            "CIENCIAS DE LA PARCHOGRAFÍA"
+        ],
+        true
     ]
 }

@@ -60,26 +60,51 @@ def Verificar_Archivo(ruta_archivo):
 
 
 def Crear_Registro(ruta_archivo):
-    llave = input("Código del estudiante: ").strip().upper()
-    nombre = input("Nombre: ")
-    materias = input("Materias que está cursando (separadas por coma): ").split(',')
-    materias = [m.strip() for m in materias] 
-    activo_string = input("¿Está activo? (S/N): ").strip().lower()
-    activo = activo_string == "S"
     
-    with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-        registros = json.load(archivo)
+    while True:
+        llave = input("Ingrese el código del estudiante (Ejemplo: AA01): ").strip().upper()
+        nombre = input("Ingrese el nombre completo en MAYUSCULAS del alumno: ").strip()
+        materias = input("Ingrese las materias que está cursando (separadas por coma): ").strip()
+        materias = [m.strip() for m in materias.split(',')] 
+        estado = input("¿Está activo? (S/N): ").strip().lower()
+        
+        if not llave or not nombre or not materias:
+             print("❌ Error: Todos los campos son obligatorios. Intente de nuevo.")
+             continue
+        if estado  in ["s","S"]:
+            estado_bool = True
+        elif estado in ["n","N"]:
+            estado_bool = False
+        else:
+            print("❌ Error: Responda con 'S' para activo o 'N' para inactivo.")
+            continue
+        registros = {}
+        
+        try: 
+            with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+                try:
+                    registros = json.load(archivo)
+                except json.JSONDecodeError:
+                    registros = {}
+               
+        except FileNotFoundError:
+            pass
+        if llave in registros:
+                    print("❌ Error: El código ya existe. No se puede duplicar.")
+                    continue
+        registros[llave] = [nombre, materias, estado_bool]
+        with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
+            registros = {llave: [nombre, materias, estado_bool]}
+            json.dump(registros, archivo, indent=4, ensure_ascii=False)
+        time.sleep(2)
+        print("✅ Registro creado con éxito")
+        input("\n Presione Enter para salir")
+        break
     
-    if llave in registros:
-        print("⚠️ El código ya existe. No se puede duplicar.")
-        return
-    
-    registros[llave] = [nombre, materias, activo]
-    
-    with open(ruta_archivo, 'w', encoding='utf-8') as archivo:      
-        json.dump(registros, archivo, indent=4, ensure_ascii=False)
-    print("✅ Registro creado con éxito")
+
+
     limpiar()
+
 
 
 def Modificar_Registro(ruta_archivo):
@@ -93,13 +118,13 @@ def Modificar_Registro(ruta_archivo):
             print(f"Datos actuales: {registros[llave]}")
             nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip()
             materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ")
-            activo_string = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().lower()
+            estado = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().lower()
             if nombre:
                 registros[llave][0] = nombre
             if materias:
                 registros[llave][1] = [m.strip() for m in materias.split(',')]
-            if activo_string:
-                registros[llave][2] = activo_string == "S"
+            if estado:
+                registros[llave][2] = estado in ["s","S"]
             with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
                 json.dump(registros, archivo, indent=4, ensure_ascii=False)
             time.sleep(2)
@@ -128,8 +153,9 @@ def Consultar_Registro(ruta_archivo):
                 print("🔙 Volviendo al menú principal...")
                 time.sleep(2)
                 break
-            if llave not in registros:
-                print("❌ Registro no encontrado. Escriba el codigo del registro correctamente:")    
+            else:
+                print("❌ Registro no encontrado. Escriba el codigo del registro correctamente:")
+                continue    
         limpiar()
 
 
@@ -138,10 +164,16 @@ def Consultar_Registro(ruta_archivo):
 
 def Eliminar_Registro(ruta_archivo):
     while True:
-        llave = input("Ingrese el código del alumno a eliminar: ")
+        llave = input("Ingrese el código del alumno a eliminar: ").strip().upper()
         with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
             registros = json.load(archivo)
         if llave in registros:
+            print(f"📌 Registro encontrado: {registros[llave]}")
+            confirmacion = input(f"⚠️ ¿Seguro que quieres eliminar {llave}? (S/N): ").strip().lower()
+            if confirmacion in ["n","N"]: 
+                print("❌ Operación cancelada. El registro NO fue eliminado.")
+                input("\nPresione ENTER para volver al menú.")
+                return
             time.sleep(2)
             del registros[llave]
             with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
@@ -149,12 +181,11 @@ def Eliminar_Registro(ruta_archivo):
             print("✅ Registro eliminado con éxito")
             input("\n Presione Enter para salir")
             break 
-        if llave not in registros:
-            print("❌ Código no encontrado. Escriba el codigo correctamente:")    
+        else:
+            print("❌ Código no encontrado. Escriba el codigo correctamente:") 
+            continue   
     limpiar()
 
-def limpiar():
-    call("cls", shell=True)
 
 
 
