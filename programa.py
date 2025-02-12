@@ -4,13 +4,10 @@ import json
 import os 
 import time
 
-
 "--------------------------MENUS---------------------------------"
-
 
 def limpiar():
     call("cls", shell = True)
-
 
 def Menu_Principal(ruta_archivo):
     limpiar()
@@ -52,8 +49,6 @@ def Menu_Principal(ruta_archivo):
 
 
 
-
-
 def Verificar_Archivo(ruta_archivo):
     if not os.path.exists(ruta_archivo) or os.stat(ruta_archivo).st_size == 0:  
         with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
@@ -70,10 +65,6 @@ def Crear_Registro(ruta_archivo):
         registros = json.load(archivo)
 
     while True:
-        if llave or nombre or materias:
-            with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
-                registros = {llave: [nombre, materias, estado_bool]}
-                json.dump(registros, archivo, indent=4, ensure_ascii=False)
         if not llave or not nombre or not materias:
              print("❌ Error: Todos los campos son obligatorios. Intente de nuevo.")
              continue
@@ -84,13 +75,12 @@ def Crear_Registro(ruta_archivo):
         else:
             print("❌ Error: Responda con 'S' para activo o 'N' para inactivo.")
             continue
-
         if llave in registros:
             print("❌ Error: El código ya existe. No se puede duplicar.")
             continue
         with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
-            registros = {llave: [nombre, materias, estado_bool]}
             json.dump(registros, archivo, indent=4, ensure_ascii=False)
+        registros = {llave: [nombre, materias, estado_bool]}
         time.sleep(2)
         print("✅ Registro creado con éxito")
         input("\n Presione Enter para salir")
@@ -101,14 +91,12 @@ def Crear_Registro(ruta_archivo):
     limpiar()
 
 
-
 def Modificar_Registro(ruta_archivo):
     llave = input("Ingrese el código del estudiante a modificar: ").strip().upper()
     with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
         registros = json.load(archivo)
 
     while True:
-        
         if llave in registros:
             print(f"Datos actuales: {registros[llave]}")
             nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip()
@@ -134,7 +122,6 @@ def Modificar_Registro(ruta_archivo):
     limpiar()
 
 
-
 def Consultar_Registro(ruta_archivo):
         while True:
             llave = input("Ingrese el código del alumno a consultar: ").strip()
@@ -152,9 +139,6 @@ def Consultar_Registro(ruta_archivo):
                 print("❌ Registro no encontrado. Escriba el codigo del registro correctamente:")
                 continue    
         limpiar()
-
-
-
 
 
 def Eliminar_Registro(ruta_archivo):
@@ -180,9 +164,6 @@ def Eliminar_Registro(ruta_archivo):
             print("❌ Código no encontrado. Escriba el codigo correctamente:") 
             continue   
     limpiar()
-
-
-
 
 
 if __name__ == '__main__':
