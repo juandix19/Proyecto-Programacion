@@ -44,6 +44,7 @@ def Menu_Principal(ruta_archivo):
             Eliminar_Registro(ruta_archivo)
         elif option == "0":
             print("Saliendo del programa...")
+            time.sleep(2)
             break
         else:
             print("❌ Opción inválida, intenta de nuevo.")
@@ -60,14 +61,19 @@ def Verificar_Archivo(ruta_archivo):
 
 
 def Crear_Registro(ruta_archivo):
-    
+    llave = input("Ingrese el código del estudiante (Ejemplo: AA01): ").strip().upper()
+    nombre = input("Ingrese el nombre completo en MAYUSCULAS del alumno: ").strip()
+    materias = input("Ingrese las materias que está cursando (separadas por coma): ").strip()
+    materias = [m.strip() for m in materias.split(',')] 
+    estado = input("¿Está activo? (S/N): ").strip().lower()
+    with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+        registros = json.load(archivo)
+
     while True:
-        llave = input("Ingrese el código del estudiante (Ejemplo: AA01): ").strip().upper()
-        nombre = input("Ingrese el nombre completo en MAYUSCULAS del alumno: ").strip()
-        materias = input("Ingrese las materias que está cursando (separadas por coma): ").strip()
-        materias = [m.strip() for m in materias.split(',')] 
-        estado = input("¿Está activo? (S/N): ").strip().lower()
-        
+        if llave or nombre or materias:
+            with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
+                registros = {llave: [nombre, materias, estado_bool]}
+                json.dump(registros, archivo, indent=4, ensure_ascii=False)
         if not llave or not nombre or not materias:
              print("❌ Error: Todos los campos son obligatorios. Intente de nuevo.")
              continue
@@ -78,21 +84,10 @@ def Crear_Registro(ruta_archivo):
         else:
             print("❌ Error: Responda con 'S' para activo o 'N' para inactivo.")
             continue
-        registros = {}
-        
-        try: 
-            with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-                try:
-                    registros = json.load(archivo)
-                except json.JSONDecodeError:
-                    registros = {}
-               
-        except FileNotFoundError:
-            pass
+
         if llave in registros:
-                    print("❌ Error: El código ya existe. No se puede duplicar.")
-                    continue
-        registros[llave] = [nombre, materias, estado_bool]
+            print("❌ Error: El código ya existe. No se puede duplicar.")
+            continue
         with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
             registros = {llave: [nombre, materias, estado_bool]}
             json.dump(registros, archivo, indent=4, ensure_ascii=False)
