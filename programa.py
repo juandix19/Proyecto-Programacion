@@ -31,12 +31,16 @@ def Menu_Principal(ruta_archivo):
         option = input("Digite una opción: ")
 
         if option == "1":
+            limpiar()
             Crear_Registro(ruta_archivo)
         elif option == "2":
+            limpiar()
             Modificar_Registro(ruta_archivo)
         elif option == "3":
+            limpiar()
             Consultar_Registro(ruta_archivo)
         elif option == "4":
+            limpiar()
             Eliminar_Registro(ruta_archivo)
         elif option == "0":
             print("Saliendo del programa...")
@@ -78,7 +82,6 @@ def Crear_Registro(ruta_archivo):
             print("❌ Error: El código ya existe. No se puede duplicar.")
             continue
         registros[llave] = [nombre, materias, estado_bool]
-        # registros = {llave: [nombre, materias, estado_bool]}
         with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
             json.dump(registros, archivo, indent=4, ensure_ascii=False)
         time.sleep(2)
