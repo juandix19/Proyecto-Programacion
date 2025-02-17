@@ -52,7 +52,7 @@ def Menu_Principal(ruta_archivo):
         else:
             limpiar()
             print("❌ Opción inválida, intenta de nuevo.")
-            continue 
+            pass
 
 
 
@@ -76,10 +76,10 @@ def Crear_Registro(ruta_archivo):
             limpiar()
             print("❌ Error: El código debe tener 2 vocales mayúsculas seguidas de 2 números (Ejemplo: AA01).")
             return
-        nombre = input("Ingrese el nombre completo en MAYUSCULAS del alumno: ").strip()
-        materias = input("Ingrese las materias que está cursando (separadas por coma): ").strip()
-        materias = [m.strip() for m in materias.split(',')] 
-        estado = input("¿Está activo? (S/N): ").strip().lower()
+        nombre = input("Ingrese el nombre completo en MAYUSCULAS del alumno: ").strip().upper()
+        materias = input("Ingrese las materias que está cursando (separadas por coma): ").strip().upper()
+        materias = [m.strip().upper() for m in materias.split(',')] 
+        estado = input("¿Está activo? (S/N): ").strip().upper()
 
         if not llave or not nombre or not materias:
             limpiar()
@@ -117,9 +117,9 @@ def Modificar_Registro(ruta_archivo):
             break
         if llave in registros:
             print(f"Datos actuales: {registros[llave]}")
-            nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip()
-            materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ")
-            estado = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().lower()
+            nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip().upper
+            materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ").strip().upper()
+            estado = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().upper()
             if nombre:
                 registros[llave][0] = nombre
             if materias:
