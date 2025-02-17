@@ -163,26 +163,26 @@ def Consultar_Registro(ruta_archivo):
                 else:
                     print("❌ Registro no encontrado. Escriba el codigo del registro correctamente:")
                     continue 
-            if llave == "2":
+            elif llave == "2":
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros: dict = json.load(archivo)
                 if not registros:
                     print("📂 No hay registros guardados.")
-                    return
+                    return 
                 else:
-                    print("\n📋 REGISTROS GENERALES:")
+                    print("\n📋 REGISTRO GENERAL:")
                     print("-" * 80)
                     for codigo, datos in registros.items():
                         nombre, materias, estado = datos
                         estado_str = "Activo" if estado else "Inactivo"
-                        print(f"📌 Código: {codigo}")
-                        print(f"   Nombre: {nombre}")
-                        print(f"   Materias: {', '.join(materias) if materias else 'Ninguna'}")
-                        print(f"   Estado: {estado_str}")
+                        print(f"📌 Código: {codigo}     Nombre: {nombre}")
+                        print(f"    Materias: {', '.join(materias) if materias else 'Ninguna'}  Estado: {estado_str}")
                         print("-" * 80)
+                        continue
                 input("\nPresione ENTER para volver al menú principal")
                 print("🔙 Volviendo al menú principal...")
                 time.sleep(2)
+                break 
         limpiar()
 
 
