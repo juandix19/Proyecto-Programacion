@@ -1,7 +1,7 @@
 from subprocess import call 
 from color import Color 
 import json
-import os
+import os 
 import time
 import re
 
@@ -123,7 +123,7 @@ def Modificar_Registro(ruta_archivo):
             if nombre:
                 registros[llave][0] = nombre
             if materias:
-                registros[llave][1] = [m.strip() for m in materias.split(',')]
+                registros[llave][1] = [m.strip().upper() for m in materias.split(',')]
             if estado:
                 registros[llave][2] = estado in ["s","S"]
             with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
@@ -153,16 +153,36 @@ def Consultar_Registro(ruta_archivo):
                     registros = json.load(archivo)
                 if llave in registros:
                     print("\n📌 Registro encontrado:")
-                    print("\n" + "-" * 80)
+                    # print("\n" + "-" * 80)
                     print(f"\n Datos actuales: {registros[llave]}")
-                    print("\n" + "-" * 80)
+                    # print("\n" + "-" * 80)
                     input("\nPresione ENTER para volver al menú principal")
                     print("🔙 Volviendo al menú principal...")
                     time.sleep(2)
                     break
                 else:
                     print("❌ Registro no encontrado. Escriba el codigo del registro correctamente:")
-                    continue    
+                    continue 
+            if llave == "2":
+                with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+                    registros: dict = json.load(archivo)
+                if not registros:
+                    print("📂 No hay registros guardados.")
+                    return
+                else:
+                    print("\n📋 REGISTROS GENERALES:")
+                    print("-" * 80)
+                    for codigo, datos in registros.items():
+                        nombre, materias, estado = datos
+                        estado_str = "Activo" if estado else "Inactivo"
+                        print(f"📌 Código: {codigo}")
+                        print(f"   Nombre: {nombre}")
+                        print(f"   Materias: {', '.join(materias) if materias else 'Ninguna'}")
+                        print(f"   Estado: {estado_str}")
+                        print("-" * 80)
+                input("\nPresione ENTER para volver al menú principal")
+                print("🔙 Volviendo al menú principal...")
+                time.sleep(2)
         limpiar()
 
 
