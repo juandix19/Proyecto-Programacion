@@ -1,22 +1,24 @@
 {
     "JL25": [
-        "JUANITO",
+        "YESID ALFRED NUÑEZ MOLANO",
         [
-            "PROGRAMACIÓN"
+            "PARCHOLOGÍA II",
+            "MATEMATICAS"
         ],
-        true
+        false
     ],
     "JL26": [
-        "JASSNA LUNA RAFFÁN BOHORQUEZ",
+        "JASSNA LUNA RAFFÁN BOHÓRQUEZ",
         [
-            "BIOLOGÍA"
-        ],
-        true
-    ],
-    "JL27": [
-        "SANTIAGO",
-        [
-            "MATEMÁTICAS"
+            "BIOLOGÍA",
+            "FUNDAMENTACIÓN MÉDICA",
+            "PRIMEROS AUXILIOS",
+            "FÍSICA",
+            "MATEMÁTICAS",
+            "QUÍMICA",
+            "ORIENTACIÓN PROFESIONAL",
+            "METODOLOGÍA DE ESTUDIO",
+            "HABILIDADES COMUNICATIVAS"
         ],
         true
     ]

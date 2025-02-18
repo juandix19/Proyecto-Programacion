@@ -106,10 +106,9 @@ def Crear_Registro(ruta_archivo):
 
 
 def Modificar_Registro(ruta_archivo):
-    with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-        registros = json.load(archivo)
-
     while True:
+        with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+            registros = json.load(archivo)
         llave = input("Ingrese el código del registro que desea modificar (o escriba '0' para volver): ").strip().upper()
         if llave == '0':
             print("🔙 Volviendo al menú principal...")
@@ -117,7 +116,7 @@ def Modificar_Registro(ruta_archivo):
             break
         if llave in registros:
             print(f"Datos actuales: {registros[llave]}")
-            nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip().upper
+            nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip().upper()
             materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ").strip().upper()
             estado = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().upper()
             if nombre:
@@ -135,8 +134,6 @@ def Modificar_Registro(ruta_archivo):
         if llave not in registros:
             print("⚠️ No se encontró el código ingresado.")
             return 
-
-        
     limpiar()
 
 
@@ -171,13 +168,12 @@ def Consultar_Registro(ruta_archivo):
                     return 
                 else:
                     print("\n📋 REGISTRO GENERAL:")
-                    print("-" * 80)
+                    print("-" * 200)
                     for codigo, datos in registros.items():
                         nombre, materias, estado = datos
                         estado_str = "Activo" if estado else "Inactivo"
-                        print(f"📌 Código: {codigo}     Nombre: {nombre}")
-                        print(f"    Materias: {', '.join(materias) if materias else 'Ninguna'}  Estado: {estado_str}")
-                        print("-" * 80)
+                        print(f"📌 Código: {codigo} \n Nombre: {nombre} \n Materias: {', '.join(materias) if materias else 'Ninguna'} \n Estado: {estado_str}")
+                        print("-" * 200)
                         continue
                 input("\nPresione ENTER para volver al menú principal")
                 print("🔙 Volviendo al menú principal...")
@@ -201,7 +197,7 @@ def Eliminar_Registro(ruta_archivo):
             if confirmacion in ["n","N"]: 
                 print("❌ Operación cancelada. El registro NO fue eliminado.")
                 input("\nPresione ENTER para volver al menú.")
-                return
+                break
             time.sleep(2)
             del registros[llave]
             with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
