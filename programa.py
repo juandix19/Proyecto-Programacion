@@ -48,6 +48,7 @@ def Menu_Principal(ruta_archivo):
         elif option == "0":
             print("Saliendo del programa...")
             time.sleep(2)
+            limpiar()
             break
         else:
             limpiar()
