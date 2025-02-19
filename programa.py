@@ -56,36 +56,40 @@ def Menu_Principal(ruta_archivo):
             pass
 
 
-
 def Verificar_Archivo(ruta_archivo):
     if not os.path.exists(ruta_archivo) or os.stat(ruta_archivo).st_size == 0:  
         with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
             json.dump({}, archivo, indent=4, ensure_ascii=False)
 
 
-def Crear_Registro(ruta_archivo):
+def Mostrar_Registro(llave, datos):
+    nombre, materias, estado = datos
+    estado_str = "Activo" if estado else "Inactivo"
+    return (f"📌 Código: {llave} \n 🔹 Nombre: {nombre} \n 📚 Materias: {materias} \n 🟢 Estado: {estado_str}")
 
+
+def Crear_Registro(ruta_archivo):
     while True:
         with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
             registros = json.load(archivo) 
-        llave = input("Ingrese el código del alumno del cual desea crear registro (o escriba '0' para volver): ").strip().upper()
+        llave = input("Ingrese el código del alumno del cual desea crear registro (o escriba '0' para volver)*: ").strip().upper()
         if llave == '0':
             print("🔙 Volviendo al menú principal...")
             time.sleep(1)
             break
-        if not re.match(r"^[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ]{2}\d{2}$", llave, re.ASCII):
-            limpiar()
-            print("❌ Error: El código debe tener 2 vocales mayúsculas seguidas de 2 números (Ejemplo: AA01).")
-            return
-        nombre = input("Ingrese el nombre completo en MAYUSCULAS del alumno: ").strip().upper()
-        materias = input("Ingrese las materias que está cursando (separadas por coma): ").strip().upper()
-        materias = [m.strip().upper() for m in materias.split(',')] 
-        estado = input("¿Está activo? (S/N): ").strip().upper()
-
-        if not llave or not nombre or not materias:
-            limpiar()
-            print("❌ Error: Todos los campos son obligatorios. Intente de nuevo.")
-            return
+        if not re.fullmatch(r"^[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ]{2}\d{2}$", llave):
+            print("❌ Error: El código debe tener 2 letras mayúsculas seguidas de 2 números (Ejemplo: AA01).")
+            continue
+        nombre = input("Ingrese el nombre completo del alumno*: ").strip().upper()
+        materias = input("Ingrese las materias que está cursando(separadas por coma): ").strip().upper()
+        if not materias:
+            materias = "ACTUALMENTE EL ALUMNO NO ESTÁ CURSANDO ALGUNA MATERIA"
+        else:
+            materias = [m.strip() for m in materias.split(',')]
+        estado = input("¿Está activo? (S/N)*: ").strip().upper()
+        if not estado or not nombre:
+            print("❌ Error: Debe introducir todos los datos obligatorios. Intente de nuevo.")
+            continue
         if estado  in ["s","S"]:
             estado_bool = True
         elif estado in ["n","N"]:
@@ -116,7 +120,7 @@ def Modificar_Registro(ruta_archivo):
             time.sleep(1)
             break
         if llave in registros:
-            print(f"Datos actuales: {registros[llave]}")
+            print("\n📋Datos actuales:" + f"\n\n {Mostrar_Registro(llave, registros[llave])}" + "\n")
             nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip().upper()
             materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ").strip().upper()
             estado = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().upper()
@@ -150,10 +154,7 @@ def Consultar_Registro(ruta_archivo):
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros = json.load(archivo)
                 if llave in registros:
-                    print("\n📌 Registro encontrado:")
-                    # print("\n" + "-" * 80)
-                    print(f"\n Datos actuales: {registros[llave]}")
-                    # print("\n" + "-" * 80)
+                    print("\n📋Registro encontrado:" + f"\n\n {Mostrar_Registro(llave, registros[llave])}" + "\n")
                     input("\nPresione ENTER para volver al menú principal")
                     print("🔙 Volviendo al menú principal...")
                     time.sleep(2)
@@ -166,16 +167,15 @@ def Consultar_Registro(ruta_archivo):
                     registros: dict = json.load(archivo)
                 if not registros:
                     print("📂 No hay registros guardados.")
-                    return 
+                    continue
                 else:
                     print("\n📋 REGISTRO GENERAL:")
                     print("-" * 200)
                     for codigo, datos in registros.items():
                         nombre, materias, estado = datos
                         estado_str = "Activo" if estado else "Inactivo"
-                        print(f"📌 Código: {codigo} \n Nombre: {nombre} \n Materias: {', '.join(materias) if materias else 'Ninguna'} \n Estado: {estado_str}")
+                        print(f"📌 Código: {codigo} \n 🔹 Nombre: {nombre} \n 📚 Materias: {materias} \n 🟢 Estado: {estado_str}")
                         print("-" * 200)
-                        continue
                 input("\nPresione ENTER para volver al menú principal")
                 print("🔙 Volviendo al menú principal...")
                 time.sleep(2)
@@ -193,7 +193,7 @@ def Eliminar_Registro(ruta_archivo):
         with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
             registros = json.load(archivo)
         if llave in registros:
-            print(f"📌 Registro encontrado: {registros[llave]}")
+            print("\n 📋Registro encontrado:" + f"\n\n{Mostrar_Registro(llave, registros[llave])}" + "\n")
             confirmacion = input(f"⚠️ ¿Seguro que quieres eliminar {llave}? (S/N): ").strip().lower()
             if confirmacion in ["n","N"]: 
                 print("❌ Operación cancelada. El registro NO fue eliminado.")
