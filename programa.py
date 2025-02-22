@@ -1,9 +1,9 @@
 from subprocess import call 
 from color import Color 
 import json
-import os 
+import os.path 
 import time
-import re
+import re 
 
 "--------------------------MENUS---------------------------------"
 
@@ -13,14 +13,12 @@ def limpiar():
 def Menu_Principal(ruta_archivo):
     limpiar()
     while True:
-        print(Color.GREEN)
-        print("""
-                                            *****************************************************************************************
-                                                                Programa para el manejo de Estudiantes de Curso
+        print(Color.WHITE + """
+                                            *****************************************************************************************""" + Color.GREEN + """
+                                                                Programa para el manejo de Estudiantes de Curso   """ + Color.WHITE +  """
                                             *****************************************************************************************
         """)
-        print(Color.RESET)
-        print("""                                                                       
+        print(Color.WHITE + """                                                                       
                                                                             1. Crear Registros.
                                                                             2. Modificar Registros.  
                                                                             3. Consultar Registros.
@@ -29,10 +27,7 @@ def Menu_Principal(ruta_archivo):
                                                                             0. <Terminar>
                 """)
 
-        print(Color.CYAN)
-        option = input("Digite una opción: ")
-        print(Color.RESET)
-        
+        option = input(Color.CYAN + "Digite una opción: " + Color.RESET)
         if option == "1":
             limpiar()
             Crear_Registro(ruta_archivo)
@@ -105,7 +100,7 @@ def Crear_Registro(ruta_archivo):
             json.dump(registros, archivo, indent=4, ensure_ascii=False)
         time.sleep(2)
         print("✅ Registro creado con éxito")
-        input("\n Presione ENTER para volver al menú")
+        input("\n Presione ENTER para volver al menú principal ")
         break   
     limpiar()
 
@@ -119,26 +114,30 @@ def Modificar_Registro(ruta_archivo):
             print("🔙 Volviendo al menú principal...")
             time.sleep(1)
             break
-        if llave in registros:
+        if llave in registros: 
             print("\n📋Datos actuales:" + f"\n\n {Mostrar_Registro(llave, registros[llave])}" + "\n")
-            nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip().upper()
-            materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ").strip().upper()
-            estado = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().upper()
-            if nombre:
-                registros[llave][0] = nombre
-            if materias:
-                registros[llave][1] = [m.strip().upper() for m in materias.split(',')]
-            if estado:
-                registros[llave][2] = estado in ["s","S"]
-            with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
-                json.dump(registros, archivo, indent=4, ensure_ascii=False)
-            time.sleep(2)
-            print("✅ Registro modificado con éxito")
-            input("\n Presione ENTER para volver al menú")
-            break
+            answer = input("\n¿Desea modificar este registro? (A) para modificar y (D) para modificar otro registro:")
+            if answer == "A":
+                nombre = input("Nuevo nombre (dejar en blanco para mantener actual): ").strip().upper()
+                materias = input("Nuevas materias (separadas por coma, dejar en blanco para mantener actual): ").strip().upper()
+                estado = input("¿Está activo? (S/N, dejar en blanco para mantener actual): ").strip().upper()
+                if nombre:
+                    registros[llave][0] = nombre
+                if materias:
+                    registros[llave][1] = [m.strip().upper() for m in materias.split(',')]
+                if estado:
+                    registros[llave][2] = estado in ["s","S"]
+                with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
+                    json.dump(registros, archivo, indent=4, ensure_ascii=False)
+                time.sleep(2)
+                print("✅ Registro modificado con éxito")
+                input("\n Presione ENTER para volver al menú ")
+                break
+            if answer == "D":
+                break
         if llave not in registros:
             print("⚠️ No se encontró el código ingresado.")
-            return 
+            pass
     limpiar()
 
 
@@ -153,9 +152,13 @@ def Consultar_Registro(ruta_archivo):
                 llave = input("Ingrese el código del registro que desea consultar (o escriba '0' para volver): ").strip().upper()
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros = json.load(archivo)
+                if llave == '0':
+                    print("🔙 Volviendo al menú principal...")
+                    time.sleep(1)
+                    break    
                 if llave in registros:
                     print("\n📋Registro encontrado:" + f"\n\n {Mostrar_Registro(llave, registros[llave])}" + "\n")
-                    input("\nPresione ENTER para volver al menú principal")
+                    input("\nPresione ENTER para volver al menú principal ")
                     print("🔙 Volviendo al menú principal...")
                     time.sleep(2)
                     break
@@ -163,6 +166,7 @@ def Consultar_Registro(ruta_archivo):
                     print("❌ Registro no encontrado. Escriba el codigo del registro correctamente:")
                     continue 
             elif llave == "2":
+                time.sleep(2)
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros: dict = json.load(archivo)
                 if not registros:
@@ -176,7 +180,7 @@ def Consultar_Registro(ruta_archivo):
                         estado_str = "Activo" if estado else "Inactivo"
                         print(f"📌 Código: {codigo} \n 🔹 Nombre: {nombre} \n 📚 Materias: {materias} \n 🟢 Estado: {estado_str}")
                         print("-" * 200)
-                input("\nPresione ENTER para volver al menú principal")
+                input("\nPresione ENTER para volver al menú principal ")
                 print("🔙 Volviendo al menú principal...")
                 time.sleep(2)
                 break 
@@ -197,14 +201,14 @@ def Eliminar_Registro(ruta_archivo):
             confirmacion = input(f"⚠️ ¿Seguro que quieres eliminar {llave}? (S/N): ").strip().lower()
             if confirmacion in ["n","N"]: 
                 print("❌ Operación cancelada. El registro NO fue eliminado.")
-                input("\nPresione ENTER para volver al menú.")
+                input("\nPresione ENTER para volver al menú principal ")
                 break
             time.sleep(2)
             del registros[llave]
             with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
                 json.dump(registros, archivo, indent=4, ensure_ascii=False)
             print("✅ Registro eliminado con éxito")
-            input("\n Presione ENTER para volver al menú principal")
+            input("\n Presione ENTER para volver al menú principal ")
             break 
         else:
             print("❌ Código no encontrado. Escriba el codigo correctamente:") 
