@@ -14,20 +14,21 @@ def Menu_Principal(ruta_archivo):
     limpiar()
     while True:
         print(Color.WHITE + """
-                                            *****************************************************************************************""" + Color.GREEN + """
-                                                                Programa para el manejo de Estudiantes de Curso   """ + Color.WHITE +  """
-                                            *****************************************************************************************
-        """)
-        print(Color.WHITE + """                                                                       
-                                                                            1. Crear Registros.
-                                                                            2. Modificar Registros.  
-                                                                            3. Consultar Registros.
-                                                                            4. Eliminar Registro.
+                                                *****************************************************************************************""" + Color.GREEN + """
+                                                                    Programa para el manejo de Estudiantes de Curso   """ + Color.WHITE +  """
+                                                *****************************************************************************************
+            """
+            + Color.WHITE + """                                                                       
+                                                                                1. Crear Registros.
+                                                                                2. Modificar Registros.  
+                                                                                3. Consultar Registros.
+                                                                                4. Eliminar Registro.
 
-                                                                            0. <Terminar>
+                                                                                0. <Terminar>
+              
                 """)
 
-        option = input(Color.CYAN + "Digite una opción: " + Color.RESET)
+        option = centrar_input(Color.CYAN + "Digite una opción: ")
         if option == "1":
             limpiar()
             Crear_Registro(ruta_archivo)
@@ -50,6 +51,10 @@ def Menu_Principal(ruta_archivo):
             print("❌ Opción inválida, intenta de nuevo.")
             pass
 
+def centrar_input(mensaje, ancho_terminal = 180):
+    espacios = (ancho_terminal - len(mensaje)) // 2 
+    return input(" " * espacios + mensaje + Color.RESET)
+
 
 def Verificar_Archivo(ruta_archivo):
     if not os.path.exists(ruta_archivo) or os.stat(ruta_archivo).st_size == 0:  
@@ -65,43 +70,63 @@ def Mostrar_Registro(llave, datos):
 
 def Crear_Registro(ruta_archivo):
     while True:
-        with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-            registros = json.load(archivo) 
-        llave = input("Ingrese el código del alumno del cual desea crear registro (o escriba '0' para volver)*: ").strip().upper()
+        print(Color.WHITE + """                     ***************************************************************************************** """ + Color.ORANGE + """
+                                                                            Crear Registros                               """ + Color.WHITE + """
+                                                    *****************************************************************************************
+                            """
+                            """
+
+                                                                        1. Crear un nuevo registro. 
+                                                                        0. Volver al menú principal. 
+                                                                            
+              
+                                                                            """)
+        llave = centrar_input(Color.YELLOW + "Digite una opción: ")
         if llave == '0':
             print("🔙 Volviendo al menú principal...")
             time.sleep(1)
-            break
-        if not re.fullmatch(r"^[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ]{2}\d{2}$", llave):
-            print("❌ Error: El código debe tener 2 letras mayúsculas seguidas de 2 números (Ejemplo: AA01).")
-            continue
-        nombre = input("Ingrese el nombre completo del alumno*: ").strip().upper()
-        materias = input("Ingrese las materias que está cursando(separadas por coma): ").strip().upper()
-        if not materias:
-            materias = "ACTUALMENTE EL ALUMNO NO ESTÁ CURSANDO ALGUNA MATERIA"
-        else:
-            materias = [m.strip() for m in materias.split(',')]
-        estado = input("¿Está activo? (S/N)*: ").strip().upper()
-        if not estado or not nombre:
-            print("❌ Error: Debe introducir todos los datos obligatorios. Intente de nuevo.")
-            continue
-        if estado  in ["s","S"]:
-            estado_bool = True
-        elif estado in ["n","N"]:
-            estado_bool = False
-        else:           
-            print("❌ Error: Responda con 'S' para activo o 'N' para inactivo.")
-            continue
-        if llave in registros:
-            print("❌ Error: El código ya existe. No se puede duplicar.")
-            continue
-        registros[llave] = [nombre, materias, estado_bool]
-        with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
-            json.dump(registros, archivo, indent=4, ensure_ascii=False)
-        time.sleep(2)
-        print("✅ Registro creado con éxito")
-        input("\n Presione ENTER para volver al menú principal ")
-        break   
+            break        
+        if llave == '1':
+            limpiar()
+            with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+                registros = json.load(archivo) 
+            llave = input("\n\nIngrese el código del alumno del cual desea crear registro (o escriba '0' para volver)*: ").strip().upper()
+            if not re.fullmatch(r"^[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ]{2}\d{2}$", llave):
+                print("❌ Error: El código debe tener 2 letras mayúsculas seguidas de 2 números (Ejemplo: AA01).")
+                continue
+            if llave == '0':
+                limpiar()
+                print("🔙 Volviendo al menú principal...")
+                time.sleep(1)    
+                break
+            nombre = input("Ingrese el nombre completo del alumno*: ").strip().upper()
+            materias = input("Ingrese las materias que está cursando(separadas por coma): ").strip().upper()
+            if not materias:
+                materias = "ACTUALMENTE EL ALUMNO NO ESTÁ CURSANDO ALGUNA MATERIA"
+            else:
+                materias = [m.strip() for m in materias.split(',')]
+            estado = input("¿Está activo? (S/N)*: ").strip().upper()
+            if not estado or not nombre:
+                print("❌ Error: Debe introducir todos los datos obligatorios. Intente de nuevo.")
+                continue
+            if estado  in ["s","S"]:
+                estado_bool = True
+            elif estado in ["n","N"]:
+                estado_bool = False
+            else:           
+                print("❌ Error: Responda con 'S' para activo o 'N' para inactivo.")
+                continue
+            if llave in registros:
+                print("❌ Error: El código ya existe. No se puede duplicar.")
+                continue
+            registros[llave] = [nombre, materias, estado_bool]
+            with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
+                json.dump(registros, archivo, indent=4, ensure_ascii=False)
+            time.sleep(2)
+            print("✅ Registro creado con éxito")
+            input("\n Presione ENTER para volver al menú principal ")
+            Crear_Registro()
+            break   
     limpiar()
 
 
@@ -109,7 +134,7 @@ def Modificar_Registro(ruta_archivo):
     while True:
         with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
             registros = json.load(archivo)
-        llave = input("Ingrese el código del registro que desea modificar (o escriba '0' para volver): ").strip().upper()
+        llave = centrar_input(Color.YELLOW + "Ingrese el código del registro que desea modificar (o escriba '0' para volver): ").strip().upper()
         if llave == '0':
             print("🔙 Volviendo al menú principal...")
             time.sleep(1)
@@ -133,7 +158,7 @@ def Modificar_Registro(ruta_archivo):
                 print("✅ Registro modificado con éxito")
                 input("\n Presione ENTER para volver al menú ")
                 break
-            if answer == "D":
+            elif answer == "D":
                 break
         if llave not in registros:
             print("⚠️ No se encontró el código ingresado.")
@@ -143,13 +168,13 @@ def Modificar_Registro(ruta_archivo):
 
 def Consultar_Registro(ruta_archivo):
         while True:
-            llave = input("Ingrese (1) para registro único, (2) para consultar registro general(o escriba '0' para volver): ").strip().upper()
+            llave = centrar_input(Color.YELLOW + "Ingrese (1) para registro único, (2) para consultar registro general(o escriba '0' para volver): ").strip().upper()
             if llave == '0':
                 print("🔙 Volviendo al menú principal...")
                 time.sleep(1)
                 break
             if llave == "1":
-                llave = input("Ingrese el código del registro que desea consultar (o escriba '0' para volver): ").strip().upper()
+                llave = centrar_input( "Ingrese el código del registro que desea consultar (o escriba '0' para volver): ").strip().upper()
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros = json.load(archivo)
                 if llave == '0':
@@ -166,7 +191,7 @@ def Consultar_Registro(ruta_archivo):
                     print("❌ Registro no encontrado. Escriba el codigo del registro correctamente:")
                     continue 
             elif llave == "2":
-                time.sleep(2)
+                time.sleep(1)
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros: dict = json.load(archivo)
                 if not registros:
