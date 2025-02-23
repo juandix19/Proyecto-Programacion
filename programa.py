@@ -104,11 +104,11 @@ def Crear_Registro(ruta_archivo):
                             break
                     else:
                         limpiar()
-                        print("❌ Error: El código debe cotener 2 letras mayúsculas seguidas de 2 números (Ejemplo: AA01).")
+                        print("❌ Error: El código debe cotener 2 letras seguidas de 2 números (Ejemplo: AA01).")
                         time.sleep(1/2)
                         continue
                 if llave == '0':  
-                    continue
+                    break
                 nombre = input("Ingrese el nombre completo del alumno*: ").strip().upper()
                 materias = input("Ingrese las materias que está cursando separadas por coma: ").strip().upper()
                 if not materias:
