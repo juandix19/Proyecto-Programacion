@@ -21,9 +21,19 @@
         ],
         true
     ],
+    "SV11": [
+        "SANTIAGO VÉLEZ SILVA",
+        [
+            "POPIS",
+            "CHICHI"
+        ],
+        true
+    ],
     "GG33": [
-        "JAIRO SNEIDER HERNÁNDEZ SOTO",
-        "ACTUALMENTE EL ALUMNO NO ESTÁ CURSANDO ALGUNA MATERIA",
-        false
+        "JUAN DAVID MOLANO TORRES",
+        [
+            "QUÍMICA ORGÁNICA"
+        ],
+        true
     ]
 }
