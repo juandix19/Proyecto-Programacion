@@ -1,11 +1,4 @@
 {
-    "JL25": [
-        "MILLOS DAVID PINZÓN",
-        [
-            "PARCHOLOGÍA III"
-        ],
-        true
-    ],
     "JL26": [
         "JASSNA LUNA RAFFÁN BOHÓRQUEZ",
         [
@@ -21,18 +14,13 @@
         ],
         true
     ],
-    "SV11": [
+    "AA02": [
         "SANTIAGO VÉLEZ SILVA",
         [
-            "POPIS",
-            "CHICHI"
-        ],
-        true
-    ],
-    "GG33": [
-        "JUAN DAVID MOLANO TORRES",
-        [
-            "QUÍMICA ORGÁNICA"
+            "PRINCIPIOS DE QUÍMICA",
+            "PROGRAMACIÓN",
+            "INTRODUCCIÓN A LA INGENIERÍA QUÍMICA",
+            "LABORATORIO DE TÉCNICAS BÁSICAS"
         ],
         true
     ]

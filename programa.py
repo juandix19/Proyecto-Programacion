@@ -75,7 +75,7 @@ def anuncios_bold(texto):
 def Crear_Registro(ruta_archivo):
     while True:
         print(Color.WHITE + """\n\n
-                                                            ***************************************************************************************** """ + Color.CYAN + """
+                                                            ***************************************************************************************** """ + Color.ORANGE + """
                                                                                                 Crear Registros                               """ + Color.WHITE + """
                                                             *****************************************************************************************
                                     """
@@ -96,7 +96,7 @@ def Crear_Registro(ruta_archivo):
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros = json.load(archivo)
                 while True: 
-                    llave = input(Color.YELLOW + "\n\nIngrese el código del alumno del cual desea crear un registro o escriba '0' para volver*: " + Color.RESET).strip().upper()
+                    llave = input(Color.YELLOW + "\n\nIngrese el código del alumno del cual desea crear un registro (Ejemplo: AA01) o escriba '0' para volver: " + Color.RESET).strip().upper()
                     if llave == '0':
                         print("\n\n🔙 Volviendo al menú anterior...")
                         time.sleep(1) 
@@ -165,7 +165,7 @@ def Crear_Registro(ruta_archivo):
 def Modificar_Registro(ruta_archivo):
     while True:
         print(Color.WHITE + """\n\n
-                                                            ***************************************************************************************** """ + Color.GREEN + """
+                                                            ***************************************************************************************** """ + Color.ORANGE + """
                                                                                             Modificar Registros                              """ + Color.WHITE + """
                                                             *****************************************************************************************
                                     """
@@ -176,7 +176,7 @@ def Modificar_Registro(ruta_archivo):
               """)
         with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
             registros = json.load(archivo)
-        llave = centrar_input(Color.BLUE + "Digite una opción: ")
+        llave = centrar_input(Color.YELLOW + "Digite una opción: ")
         if llave == '0':
             print("🔙 Volviendo al menú principal...")
             time.sleep(1)
@@ -258,7 +258,7 @@ def Consultar_Registro(ruta_archivo):
                 time.sleep(1/2)
                 limpiar()
                 while True:
-                    llave = input(Color.YELLOW + "\n\nIngrese el código del registro que desea consultar (o escriba '0' para volver): " + Color.YELLOW).strip().upper()
+                    llave = input(Color.YELLOW + "\n\nIngrese el código del registro que desea consultar o escriba '0' para volver: " + Color.YELLOW).strip().upper()
                     with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                         registros = json.load(archivo)
                     if llave == '0':
@@ -284,7 +284,8 @@ def Consultar_Registro(ruta_archivo):
                 with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                     registros: dict = json.load(archivo)
                 if not registros:
-                    print(anuncios_bold("📂 No hay registros guardados."))
+                    print(anuncios_bold("\n\n📂 No hay registros guardados."))
+                    time.sleep(1)
                     continue
                 else:
                     print("\n📋 REGISTRO GENERAL:")
@@ -306,14 +307,14 @@ def Eliminar_Registro(ruta_archivo):
     while True:
         llave = input(Color.YELLOW + "\n\nIngrese el código del registro que desea eliminar(o escriba '0' para volver): " + Color.RESET).strip().upper()
         if llave == '0':
-            print(anuncios_bold("🔙 Volviendo al menú principal..."))
+            print(anuncios_bold("\n\n🔙 Volviendo al menú principal..."))
             time.sleep(1)
             break
         with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
             registros = json.load(archivo)
         if llave in registros:
             print("\n 📋Registro encontrado:" + f"\n\n{Mostrar_Registro(llave, registros[llave])}" + "\n")
-            confirmacion = input(anuncios_bold(f"⚠️ ¿Seguro que quieres eliminar {llave}? (S/N): ")).strip().lower()
+            confirmacion = input(anuncios_bold(f"\n⚠️ ¿Seguro que quieres eliminar {llave}? (S/N): ")).strip().lower()
             if confirmacion in ["n","N"]: 
                 print(Color.BOLD + "\n❌ Operación cancelada. El registro NO fue eliminado.")
                 input("\nPresione ENTER para volver al menú principal ")
@@ -324,13 +325,13 @@ def Eliminar_Registro(ruta_archivo):
             del registros[llave]
             with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
                 json.dump(registros, archivo, indent=4, ensure_ascii=False)
-            print(Color.BOLD + "✅ Registro eliminado con éxito")
+            print(Color.BOLD + "\n✅ Registro eliminado con éxito")
             input("\n Presione ENTER para volver al menú principal ")
             print("\n🔙 Volviendo al menú anterior..." + Color.RESET)
             time.sleep(1)
             break 
         else:
-            print(anuncios_bold("❌ Código no encontrado. Escriba el codigo correctamente:"))
+            print(anuncios_bold("\n❌ Código no encontrado. Escriba el codigo correctamente:"))
             time.sleep(1/2) 
             continue   
     limpiar()
