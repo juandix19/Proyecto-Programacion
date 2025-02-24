@@ -23,5 +23,12 @@
             "LABORATORIO DE TÉCNICAS BÁSICAS"
         ],
         true
+    ],
+    "AA19": [
+        "JUAN DIEGO BLANCO SEGURA",
+        [
+            "CALCULO"
+        ],
+        false
     ]
 }
