@@ -1,34 +1,10 @@
 {
-    "JL26": [
-        "JASSNA LUNA RAFFÁN BOHÓRQUEZ",
-        [
-            "BIOLOGÍA",
-            "FUNDAMENTACIÓN MÉDICA",
-            "PRIMEROS AUXILIOS",
-            "FÍSICA",
-            "MATEMÁTICAS",
-            "QUÍMICA",
-            "ORIENTACIÓN PROFESIONAL",
-            "METODOLOGÍA DE ESTUDIO",
-            "HABILIDADES COMUNICATIVAS"
-        ],
-        true
-    ],
     "AA02": [
         "SANTIAGO VÉLEZ SILVA",
         [
-            "PRINCIPIOS DE QUÍMICA",
             "PROGRAMACIÓN",
-            "INTRODUCCIÓN A LA INGENIERÍA QUÍMICA",
-            "LABORATORIO DE TÉCNICAS BÁSICAS"
+            "PRINCIPIOS DE QUÍMICA"
         ],
         true
-    ],
-    "AA19": [
-        "JUAN DIEGO BLANCO SEGURA",
-        [
-            "CALCULO"
-        ],
-        false
     ]
 }
