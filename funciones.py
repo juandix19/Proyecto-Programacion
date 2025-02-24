@@ -195,7 +195,7 @@ def Consultar_Registro(ruta_archivo):
                 time.sleep(1/2)
                 limpiar()
                 while True:
-                    llave = input(Color.YELLOW + "\n\nIngrese el código del registro que desea consultar o escriba '0' para volver: " + Color.YELLOW).strip().upper()
+                    llave = input(Color.YELLOW + "\n\nIngrese el código del registro que desea consultar o escriba '0' para volver: " + Color.RESET).strip().upper()
                     with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                         registros = json.load(archivo)
                     if llave == '0':
