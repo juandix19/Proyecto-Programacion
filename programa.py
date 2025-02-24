@@ -2,6 +2,7 @@ from subprocess import call
 from color import Color 
 import json
 import os.path 
+FILE_NAME = os.path.join(os.path.dirname(__file__), "alumnos.json")
 import time
 import re 
 
